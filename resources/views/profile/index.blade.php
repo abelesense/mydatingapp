@@ -39,6 +39,10 @@
             <h3>Settings</h3>
             <a href="/logout" class="btn logout-btn">Log Out</a>
         </div>
+
+        <div class="user-list-button">
+            <a href="{{ route('users') }}" class="btn users-btn">View All Users</a>
+        </div>
     </div>
 </div>
 </body>
@@ -187,5 +191,26 @@
 
     .add-interests-btn:hover {
         background-color: #80bfff; /* Цвет при наведении */
+    }
+
+    .user-list-button {
+        position: absolute;
+        right: 20px; /* Расположение кнопки справа */
+        top: 20px;
+    }
+
+    .users-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .users-btn:hover {
+        background-color: #45a049;
     }
 </style>

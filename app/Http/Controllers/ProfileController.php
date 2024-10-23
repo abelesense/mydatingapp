@@ -48,4 +48,10 @@ class ProfileController extends Controller
         return redirect('/')->with('success', 'You have been logged out successfully!');
     }
 
+    public function showUsers()
+    {
+        $users = User::all();
+        return view('users', ['users' => $users]);
+    }
+
 }
