@@ -12,15 +12,15 @@
 
     <div class="users-grid">
         @foreach ($users as $user)
-            <div class="user-card">
+            <a href="/profile/{{ $user->id }}" class="user-card"> <!-- Ссылка на профиль пользователя -->
                 <img src="{{ $user->image }}" alt="Profile Photo" class="user-photo">
                 <div class="user-info">
                     <h2>{{ $user->username }}, {{ $user->age }}</h2>
                     <p>{{ $user->location }}</p>
-                    <p class="user-bio">{{ $user->bio }}</p> <!-- Добавлен класс для био -->
+                    <p class="user-bio">{{ $user->bio }}</p>
                     <a href="#" class="btn like-btn">Like</a>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 </div>
@@ -73,10 +73,13 @@
         align-items: center;
         padding: 15px;
         max-width: 220px; /* Увеличена ширина карточки */
+        text-decoration: none; /* Убираем подчеркивание для ссылок */
+        color: inherit; /* Устанавливаем цвет текста на наследуемый */
     }
 
     .user-card:hover {
         transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); /* Добавляем эффект тени при наведении */
     }
 
     .user-photo {
@@ -128,3 +131,4 @@
         background-color: #668cff;
     }
 </style>
+
