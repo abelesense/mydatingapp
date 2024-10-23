@@ -23,4 +23,5 @@ Route::get('/add-interests', [InterestController::class, 'showInterestForm'])->n
 Route::get('/edit-profile', [EditController::class, 'showEditedForm'])->name('edit-profile');
 Route::post('/edit-profile', [ProfileController::class, 'update'])->name('edit.edited');
 Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
+Route::post('/save-interest', [InterestController::class, 'saveInterest'])->name('saveInterest');
 

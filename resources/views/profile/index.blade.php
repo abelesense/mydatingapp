@@ -13,15 +13,26 @@
 
         <div class="profile-card">
             <div class="profile-header">
-                <img src="<?php echo $user->image ?>" alt="My Photo" class="profile-photo">
+                <img src="{{ $user->image }}" alt="My Photo" class="profile-photo">
                 <button class="btn edit-photo-btn">Change Photo</button>
             </div>
             <div class="profile-body">
-                <h2 class="user-name"><?php echo $user->username . ', ' . $user->age ?></h2>
-                <p class="user-bio"><?php echo $user->bio ?></p>
+                <h2 class="user-name">{{ $user->username }}, {{ $user->age }}</h2>
+                <p class="user-bio">{{ $user->bio }}</p>
                 <a href="/edit-profile" class="btn edit-profile-btn" style="margin-top: 20px;">Edit Profile</a>
                 <a href="/add-interests" class="btn add-interests-btn" style="margin-top: 10px;">Add Interests</a>
             </div>
+        </div>
+
+        <div class="interests-section">
+            <h3>My Interests</h3>
+            <ul class="interests-list">
+                @forelse ($interests as $interest)
+                    <li>{{ $interest->interest_name }}</li>
+                @empty
+                    <li>You haven't added any interests yet.</li>
+                @endforelse
+            </ul>
         </div>
 
         <div class="settings-section">

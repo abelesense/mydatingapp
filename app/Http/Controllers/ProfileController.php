@@ -10,9 +10,13 @@ class ProfileController extends Controller
 {
     public function showProfileForm()
     {
-        $userId = Auth::id();
-        $user = User::find($userId);
-        return view('profile.index', ['user' => $user]);
+        $user = auth()->user();
+        $interests = $user->interests; // Получаем интересы пользователя через связь
+
+        return view('profile.index', [
+            'user' => $user,
+            'interests' => $interests
+        ]);
     }
 
     public function update(Request $request)

@@ -32,16 +32,39 @@
 <script>
     document.getElementById('interests-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent form submission
+
         const interestSelect = document.getElementById('interest');
+        const selectedInterestId = interestSelect.value;
         const selectedInterestText = interestSelect.options[interestSelect.selectedIndex].text;
 
-        if (interestSelect.value) {
-            const selectedInterestsList = document.getElementById('selected-interests');
-            const li = document.createElement('li');
-            li.textContent = selectedInterestText;
-            selectedInterestsList.appendChild(li);
+        if (selectedInterestId) {
+            // Выполняем AJAX-запрос
+            fetch('{{ route("saveInterest") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // добавляем CSRF токен
+                },
+                body: JSON.stringify({
+                    interest_id: selectedInterestId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Добавляем интерес в список, если всё успешно
+                        const selectedInterestsList = document.getElementById('selected-interests');
+                        const li = document.createElement('li');
+                        li.textContent = selectedInterestText;
+                        selectedInterestsList.appendChild(li);
 
-            interestSelect.value = ''; // Сбрасываем выбор
+                        // Сбрасываем выбор
+                        interestSelect.value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
     });
 </script>

@@ -15,4 +15,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function interests()
+    {
+        return $this->belongsToMany(Interest::class, 'user_interests', 'user_id', 'interest_id');
+    }
+
 }
