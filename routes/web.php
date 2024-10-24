@@ -27,4 +27,13 @@ Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
 Route::post('/save-interest', [InterestController::class, 'saveInterest'])->name('saveInterest');
 Route::get('/users', [UserController::class, 'showUsers'])->name('users');
 Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile.show');
+// Маршрут для отображения страницы рулетки
+Route::get('/roulette', [ProfileController::class, 'showRoulette'])->name('roulette');
+
+// Маршрут для получения следующего пользователя
+Route::get('/roulette/next', [ProfileController::class, 'getNextProfile'])->name('roulette.next');
+
+// Маршрут для обработки лайков/дизлайков
+Route::post('/roulette/action', [ProfileController::class, 'rouletteAction'])->name('roulette.action');
+
 

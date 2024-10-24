@@ -10,6 +10,11 @@
 <div class="container">
     <h1 class="page-title">Browse Users</h1>
 
+    <!-- Добавляем кнопку для перехода в режим рулетки -->
+    <div class="roulette-container">
+        <a href="/roulette" class="btn roulette-btn">Go to Roulette Mode</a>
+    </div>
+
     <div class="users-grid">
         @foreach ($users as $user)
             <a href="/profile/{{ $user->id }}" class="user-card"> <!-- Ссылка на профиль пользователя -->
@@ -56,6 +61,12 @@
         color: #333;
     }
 
+    /* Стиль для контейнера с кнопкой рулетки */
+    .roulette-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
     .users-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -72,19 +83,19 @@
         flex-direction: column;
         align-items: center;
         padding: 15px;
-        max-width: 220px; /* Увеличена ширина карточки */
-        text-decoration: none; /* Убираем подчеркивание для ссылок */
-        color: inherit; /* Устанавливаем цвет текста на наследуемый */
+        max-width: 220px;
+        text-decoration: none;
+        color: inherit;
     }
 
     .user-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); /* Добавляем эффект тени при наведении */
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
     }
 
     .user-photo {
         width: 100%;
-        height: 120px; /* Увеличена высота фото */
+        height: 120px;
         object-fit: cover;
         border-radius: 6px;
         margin-bottom: 10px;
@@ -95,40 +106,58 @@
     }
 
     .user-info h2 {
-        font-size: 18px; /* Увеличен размер шрифта для имени */
+        font-size: 18px;
         margin-bottom: 5px;
         color: #333;
     }
 
     .user-info p {
-        font-size: 15px; /* Увеличен размер шрифта для местоположения */
+        font-size: 15px;
         color: #666;
     }
 
     .user-bio {
-        font-size: 14px; /* Размер шрифта для био */
-        color: #555; /* Цвет текста для био */
-        margin-bottom: 10px; /* Отступ снизу */
-        max-height: 40px; /* Ограничение по высоте */
-        overflow: hidden; /* Скрытие переполнения */
-        text-overflow: ellipsis; /* Эффект многоточия */
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 10px;
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .like-btn {
         background-color: #4d79ff;
         color: white;
-        padding: 8px 12px; /* Увеличены отступы кнопки */
-        font-size: 15px; /* Увеличен размер шрифта */
+        padding: 8px 12px;
+        font-size: 15px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
         text-decoration: none;
-        margin-top: 15px; /* Увеличен отступ сверху для кнопки */
+        margin-top: 15px;
     }
 
     .like-btn:hover {
         background-color: #668cff;
     }
+
+    /* Стиль для кнопки рулетки */
+    .roulette-btn {
+        background-color: #ff6347;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .roulette-btn:hover {
+        background-color: #ff8367;
+    }
 </style>
+
 
