@@ -21,6 +21,7 @@
                 <p class="user-bio">{{ $user->bio }}</p>
                 <a href="/edit-profile" class="btn edit-profile-btn" style="margin-top: 20px;">Edit Profile</a>
                 <a href="/add-interests" class="btn add-interests-btn" style="margin-top: 10px;">Add Interests</a>
+                <a href="/mylikes" class="btn my-likes-btn" style="margin-top: 10px;">My Likes</a>
             </div>
         </div>
 
