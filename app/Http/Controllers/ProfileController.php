@@ -6,6 +6,7 @@ use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
@@ -47,57 +48,6 @@ class ProfileController extends Controller
 
         // Перенаправление на главную страницу после выхода
         return redirect('/')->with('success', 'You have been logged out successfully!');
-    }
-
-    public function showUsers()
-    {
-        $users = User::all();
-        return view('users', ['users' => $users]);
-    }
-
-    // Отображение страницы рулетки
-    public function showRoulette()
-    {
-        $user = User::where('id', '!=', auth()->id())->first();
-
-        if (!$user) {
-            return redirect()->back()->with('message', 'No more users available.');
-        }
-
-        return view('roulette.roulette', ['user' => $user]);
-    }
-
-    // Получение следующего профиля
-    public function getNextProfile()
-    {
-        // Пример логики получения случайного пользователя
-        $user = User::inRandomOrder()->first();
-
-        return response()->json([
-            'id' => $user->id,
-            'username' => $user->username,
-            'age' => $user->age,
-            'location' => $user->location,
-            'bio' => $user->bio,
-            'image' => $user->image,
-        ]);
-    }
-
-    // Обработка лайка/дизлайка
-    public function rouletteAction(Request $request)
-    {
-        $userId = $request->input('user_id');
-        $action = $request->input('action'); // Лайк или дизлайк
-
-        if ($action == 'like') {
-            // Сохраняем лайк в базу данных
-            Like::create([
-                'user_id' => auth()->id(),
-                'liked_user_id' => $userId
-            ]);
-        }
-
-        return response()->json(['message' => 'Action recorded']);
     }
 
 }

@@ -22,6 +22,7 @@
                 <a href="/edit-profile" class="btn edit-profile-btn" style="margin-top: 20px;">Edit Profile</a>
                 <a href="/add-interests" class="btn add-interests-btn" style="margin-top: 10px;">Add Interests</a>
                 <a href="/mylikes" class="btn my-likes-btn" style="margin-top: 10px;">My Likes</a>
+                <a href="/wholikesme" class="btn who-likes-me-btn" style="margin-top: 10px;">Who Likes Me</a>
             </div>
         </div>
 
@@ -67,12 +68,12 @@
     }
 
     .container {
-        width: 50%; /* Устанавливаем ширину в 50%, чтобы разместить верстку в левой половине экрана */
+        width: 50%;
         max-width: 400px;
     }
 
     .profile-page {
-        text-align: left; /* Текст выравнивается по левому краю */
+        text-align: left;
     }
 
     .page-title {
@@ -91,7 +92,7 @@
     }
 
     .profile-card:hover {
-        transform: translateX(10px); /* Легкий эффект сдвига при наведении */
+        transform: translateX(10px);
     }
 
     .profile-header {
@@ -133,7 +134,7 @@
         color: #777;
     }
 
-    .edit-profile-btn {
+    .edit-profile-btn, .my-likes-btn, .who-likes-me-btn {
         background-color: #4d79ff;
         color: white;
         padding: 10px 15px;
@@ -142,10 +143,10 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        display: inline-block; /* Чтобы отобразить margin */
+        display: inline-block;
     }
 
-    .edit-profile-btn:hover {
+    .edit-profile-btn:hover, .my-likes-btn:hover, .who-likes-me-btn:hover {
         background-color: #668cff;
     }
 
@@ -179,24 +180,24 @@
     }
 
     .add-interests-btn {
-        background-color: #66b3ff; /* Цвет фона для кнопки */
-        color: white; /* Цвет текста */
-        padding: 10px 15px; /* Отступы */
-        font-size: 16px; /* Размер шрифта */
-        border: none; /* Убираем рамку */
-        border-radius: 5px; /* Закругленные углы */
-        cursor: pointer; /* Указатель при наведении */
-        transition: background-color 0.3s ease; /* Плавный переход при наведении */
-        margin-top: 10px; /* Отступ сверху для кнопки */
+        background-color: #66b3ff;
+        color: white;
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
     }
 
     .add-interests-btn:hover {
-        background-color: #80bfff; /* Цвет при наведении */
+        background-color: #80bfff;
     }
 
     .user-list-button {
         position: absolute;
-        right: 20px; /* Расположение кнопки справа */
+        right: 20px;
         top: 20px;
     }
 
@@ -215,3 +216,4 @@
         background-color: #45a049;
     }
 </style>
+

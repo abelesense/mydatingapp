@@ -11,6 +11,6 @@ class EditController extends Controller
     {
         $userId = Auth::id();
         $user = User::find($userId);
-        return view('edit.edited', ['user' => $user]);
+        return view('edit', ['user' => $user]);
     }
 }

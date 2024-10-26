@@ -22,5 +22,4 @@ class UserController extends Controller
         // Возвращаем представление профиля с данными пользователя
         return view('profile.show', compact('user'));
     }
-
 }
