@@ -11,18 +11,17 @@ class RouletteController extends Controller
 {
     public function showRoulette()
     {
-        // Получаем ID уже просмотренных пользователей из сессии, если они есть
+        // Получаем ID уже просмотренных пользователей из сессии
         $viewedUserIds = Session::get('viewed_user_ids', []);
 
-        // Ищем пользователя, который не находится в просмотренных
+        // Ищем пользователя, которого нет в просмотренных
         $user = User::where('id', '!=', auth()->id())
             ->whereNotIn('id', $viewedUserIds)
             ->inRandomOrder()
             ->first();
 
-        // Если пользователей больше нет, очищаем сессию и начинаем заново
+        // Если пользователей больше нет, выводим сообщение
         if (!$user) {
-            Session::forget('viewed_user_ids');
             return redirect()->back()->with('message', 'No more users available.');
         }
 
@@ -33,8 +32,21 @@ class RouletteController extends Controller
     }
     public function getNextProfile()
     {
-        // Пример логики получения случайного пользователя
-        $user = User::inRandomOrder()->first();
+        $viewedUserIds = Session::get('viewed_user_ids', []);
+
+        // Ищем следующего доступного пользователя, которого еще нет в просмотренных
+        $user = User::where('id', '!=', auth()->id())
+            ->whereNotIn('id', $viewedUserIds)
+            ->inRandomOrder()
+            ->first();
+
+        // Если доступных пользователей больше нет
+        if (!$user) {
+            return response()->json([
+                'message' => 'No more users available.',
+                'noMoreUsers' => true
+            ]);
+        }
 
         return response()->json([
             'id' => $user->id,
@@ -48,14 +60,20 @@ class RouletteController extends Controller
     public function rouletteAction(Request $request)
     {
         $userId = $request->input('user_id');
-        $action = $request->input('action'); // Лайк или дизлайк
+        $action = $request->input('action');
 
         if ($action == 'like') {
-            // Сохраняем лайк в базу данных
+            // Сохраняем лайк в базе данных
             Like::create([
                 'user_id' => auth()->id(),
                 'liked_user_id' => $userId
             ]);
+        }
+
+        // Добавляем ID пользователя в список просмотренных после действия
+        $viewedUserIds = Session::get('viewed_user_ids', []);
+        if (!in_array($userId, $viewedUserIds)) {
+            Session::push('viewed_user_ids', $userId);
         }
 
         return response()->json(['message' => 'Action recorded']);

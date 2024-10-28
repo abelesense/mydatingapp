@@ -49,14 +49,16 @@
                 url: '{{ route("roulette.next") }}',
                 method: 'GET',
                 success: function(data) {
-                    if (data.id !== {{ auth()->id() }}) {
+                    if (data.noMoreUsers) {
+                        $('#profile-card').hide();
+                        $('.roulette-container').append('<p>No more profiles available.</p>');
+                    } else {
                         $('#profile-photo').attr('src', data.image);
                         $('#profile-name').text(data.username + ', ' + data.age);
                         $('#profile-location').text(data.location);
                         $('#profile-bio').text(data.bio);
                         $('#profile-card').attr('data-user-id', data.id);
-                    } else {
-                        loadNextProfile(); // Пропускаем свой профиль и загружаем следующий
+                        $('#profile-card').show(); // Показываем карту, если она скрыта
                     }
                 }
             });

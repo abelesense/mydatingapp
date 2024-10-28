@@ -23,6 +23,7 @@
                 <a href="/add-interests" class="btn add-interests-btn" style="margin-top: 10px;">Add Interests</a>
                 <a href="/mylikes" class="btn my-likes-btn" style="margin-top: 10px;">My Likes</a>
                 <a href="/wholikesme" class="btn who-likes-me-btn" style="margin-top: 10px;">Who Likes Me</a>
+                <a href="/matches" class="btn messages-btn" style="margin-top: 10 px;">Messages & Matches</a>
             </div>
         </div>
 
