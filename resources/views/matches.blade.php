@@ -19,6 +19,8 @@
                     <p>{{ $match->location }}</p>
                     <p class="match-bio">{{ $match->bio }}</p>
                 </div>
+                <a href="{{ route('chat', ['user' => $match->id]) }}" class="btn message-btn">Message</a>
+
             </div>
         @empty
             <p>You have no matches yet. Start liking profiles to find matches!</p>
@@ -29,7 +31,7 @@
 </html>
 
 <style>
-    /* Стили для страницы Matches */
+
     .container {
         max-width: 800px;
         margin: 0 auto;
@@ -72,4 +74,24 @@
         font-size: 14px;
         color: #666;
     }
+
+    .message-btn {
+        display: inline-block;
+        margin-top: 15px;
+        background-color: #4d79ff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .message-btn:hover {
+        background-color: #668cff;
+    }
 </style>
+

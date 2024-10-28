@@ -37,4 +37,14 @@ class User extends Authenticatable
             ->select('users.id', 'users.username', 'users.age', 'users.location', 'users.bio', 'users.image')
             ->whereIn('users.id', $this->likedByUsers()->pluck('users.id'));
     }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }

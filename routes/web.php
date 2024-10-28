@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\LikeController;
@@ -45,4 +46,5 @@ Route::get('/wholikesme', [LikeController::class, 'whoLikesMe'])->name('wholikes
 
 Route::get('/matches', [MatchController::class, 'showMatches'])->name('matches')->middleware('auth');
 
-
+Route::get('/chat/{user}', [ChatController::class, 'showChat'])->name('chat');
+Route::post('/chat/{user}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
