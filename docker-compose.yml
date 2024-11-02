@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   web:
     image: nginx
     volumes:
@@ -26,3 +27,12 @@ services:
 #      - ./docker/postgres/data:/var/lib/postgresql/data
     ports:
       - "54321:5432"
+  rabbitmq:
+      image: rabbitmq:management
+      container_name: rabbitmq
+      ports:
+          - "5672:5672"       # RabbitMQ port
+          - "15672:15672"     # Management UI port
+      environment:
+          RABBITMQ_DEFAULT_USER: abelesense
+          RABBITMQ_DEFAULT_PASS: 2410

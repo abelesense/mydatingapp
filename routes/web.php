@@ -7,9 +7,11 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RabbitMQController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RouletteController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,3 +50,15 @@ Route::get('/matches', [MatchController::class, 'showMatches'])->name('matches')
 
 Route::get('/chat/{user}', [ChatController::class, 'showChat'])->name('chat');
 Route::post('/chat/{user}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+
+Route::get('/test-email', function () {
+    Mail::raw('Это тестовое письмо для DebugMail', function ($message) {
+        $message->to('test@debugmail.io') // неважно, какой email вы укажете, письмо не будет отправлено реальным пользователям
+        ->subject('Проверка отправки письма');
+    });
+
+    return 'Письмо отправлено!';
+});
+
+Route::get('/rabbitmq/send', [RabbitMQController::class, 'send']);
+Route::get('/rabbitmq/receive', [RabbitMQController::class, 'receive']);
