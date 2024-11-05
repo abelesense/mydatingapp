@@ -9,6 +9,7 @@ use App\Http\Controllers\MatchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RabbitMQController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RouletteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Mail;
@@ -62,3 +63,6 @@ Route::get('/test-email', function () {
 
 Route::get('/rabbitmq/send', [RabbitMQController::class, 'send']);
 Route::get('/rabbitmq/receive', [RabbitMQController::class, 'receive']);
+
+Route::get('/report/{user}', [ReportController::class, 'showReportForm'])->name('report.form');
+Route::post('/report/{user}', [ReportController::class, 'submitReport'])->name('report.submit');

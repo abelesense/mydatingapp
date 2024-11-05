@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
+use App\Mail\MessageReceived;
+use Illuminate\Support\Facades\Mail;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -40,6 +42,8 @@ class RabbitMQController
 
         $callback = function ($msg) {
             echo ' [x] Received ', $msg->body, "\n";
+            $recipientEmail = 'john.doe@example.org'; // Замените на email пользователя
+            Mail::to($recipientEmail)->send(new MessageReceived($msg->body));
         };
 
         $channel->basic_consume('hello', '', false, true, false, false, $callback);

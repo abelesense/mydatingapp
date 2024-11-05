@@ -1,22 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class RouletteController extends Controller
 {
     public function showRoulette()
     {
-        // Получаем ID уже просмотренных пользователей из сессии
-        $viewedUserIds = Session::get('viewed_user_ids', []);
-
-        // Ищем пользователя, которого нет в просмотренных
+        // Ищем случайного пользователя, который не является текущим авторизованным
         $user = User::where('id', '!=', auth()->id())
-            ->whereNotIn('id', $viewedUserIds)
             ->inRandomOrder()
             ->first();
 
@@ -25,18 +19,13 @@ class RouletteController extends Controller
             return redirect()->back()->with('message', 'No more users available.');
         }
 
-        // Добавляем ID нового пользователя в список просмотренных
-        Session::push('viewed_user_ids', $user->id);
-
         return view('users.roulette', ['user' => $user]);
     }
+
     public function getNextProfile()
     {
-        $viewedUserIds = Session::get('viewed_user_ids', []);
-
-        // Ищем следующего доступного пользователя, которого еще нет в просмотренных
+        // Ищем следующего случайного пользователя, кроме текущего
         $user = User::where('id', '!=', auth()->id())
-            ->whereNotIn('id', $viewedUserIds)
             ->inRandomOrder()
             ->first();
 
@@ -57,6 +46,7 @@ class RouletteController extends Controller
             'image' => $user->image,
         ]);
     }
+
     public function rouletteAction(Request $request)
     {
         $userId = $request->input('user_id');
@@ -70,12 +60,8 @@ class RouletteController extends Controller
             ]);
         }
 
-        // Добавляем ID пользователя в список просмотренных после действия
-        $viewedUserIds = Session::get('viewed_user_ids', []);
-        if (!in_array($userId, $viewedUserIds)) {
-            Session::push('viewed_user_ids', $userId);
-        }
-
         return response()->json(['message' => 'Action recorded']);
     }
 }
+
+

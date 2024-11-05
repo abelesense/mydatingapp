@@ -20,6 +20,7 @@
         <div class="actions">
             <button id="dislike-btn" class="btn dislike-btn">Dislike</button>
             <button id="like-btn" class="btn like-btn">Like</button>
+            <button id="report-btn" class="btn report-btn" onclick="window.location.href='/report/{{ $user->id }}'">Report</button>
         </div>
     </div>
     @else
