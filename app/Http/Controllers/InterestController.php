@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveInterestRequest;
 use App\Models\Interest;
 use App\Models\UserInterest;
 use Illuminate\Http\Request;
@@ -18,13 +19,8 @@ class InterestController extends Controller
         return view('interest.interest', ['interests' => $interests]);
     }
 
-    public function saveInterest(Request $request)
+    public function saveInterest(SaveInterestRequest $request)
     {
-        // Валидация данных
-        $request->validate([
-            'interest_id' => 'required|exists:interests,id',
-        ]);
-
         // Сохранение данных в таблицу user_interests
         $userInterest = new UserInterest();
         $userInterest->user_id = auth()->id(); // id текущего пользователя

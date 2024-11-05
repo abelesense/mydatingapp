@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class RegistrationController extends Controller
@@ -12,21 +12,10 @@ class RegistrationController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        // Валидация данных
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'age' => 'required|integer',
-            'password' => 'required|string|min:4|confirmed',
-            'gender' => 'required|string|max:10',
-            'location' => 'required|string|max:255',
-            'bio' => 'required|string|max:500',
-            'image' => 'required|url',
-        ]);
+        $validated = $request->validated();
 
-        // Создание пользователя
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
@@ -38,9 +27,10 @@ class RegistrationController extends Controller
             'image' => $validated['image'],
         ]);
 
-        // Редирект с сообщением об успехе
         return redirect('/')->with('success', 'Registration successful!');
     }
 }
+
+
 
 

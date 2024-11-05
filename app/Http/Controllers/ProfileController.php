@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,16 +22,8 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $request)
     {
-        // Валидация данных
-        $request->validate([
-            'username' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'bio' => 'required|string|max:500',
-        ]);
-
-        // Обновление данных пользователя
         $userId = Auth::id();
         $user = User::find($userId);
         $user->username = $request->username;
@@ -38,7 +31,6 @@ class ProfileController extends Controller
         $user->bio = $request->bio;
         $user->save();
 
-        // Уведомление о успешном обновлении
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 

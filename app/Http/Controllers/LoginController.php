@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,12 +13,9 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request): \Illuminate\Http\RedirectResponse
+    public function login(LoginRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/myprofile');
