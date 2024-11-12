@@ -36,3 +36,8 @@ services:
       environment:
           RABBITMQ_DEFAULT_USER: abelesense
           RABBITMQ_DEFAULT_PASS: 2410
+  redis:
+      image: redis:alpine
+      container_name: redis
+      ports:
+          - "6379:6379"
