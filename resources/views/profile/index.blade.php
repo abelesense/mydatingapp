@@ -24,6 +24,7 @@
                 <a href="/mylikes" class="btn my-likes-btn" style="margin-top: 10px;">My Likes</a>
                 <a href="/wholikesme" class="btn who-likes-me-btn" style="margin-top: 10px;">Who Likes Me</a>
                 <a href="/matches" class="btn messages-btn" style="margin-top: 10 px;">Messages & Matches</a>
+                <a href="/report" class="btn report-btn">Report</a>
             </div>
         </div>
 
@@ -216,5 +217,10 @@
     .users-btn:hover {
         background-color: #45a049;
     }
+
+    .report-btn:hover {
+        background-color: #ff7043;
+    }
+
 </style>
 

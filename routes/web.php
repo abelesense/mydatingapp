@@ -5,6 +5,7 @@ use App\Http\Controllers\EditController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MainReportController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RabbitMQController;
@@ -64,5 +65,6 @@ Route::get('/test-email', function () {
 Route::get('/rabbitmq/send', [RabbitMQController::class, 'send']);
 Route::get('/rabbitmq/receive', [RabbitMQController::class, 'receive']);
 
-Route::get('/report/{user}', [ReportController::class, 'showReportForm'])->name('report.form');
-Route::post('/report/{user}', [ReportController::class, 'submitReport'])->name('report.submit');
+Route::get('/report/create', [MainReportController::class, 'create'])->name('report.create');
+Route::post('/report/store', [MainReportController::class, 'store'])->name('report.store');
+
