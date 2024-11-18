@@ -1,16 +1,21 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Mail\MatchNotification;
 use App\Models\Like;
 use App\Models\User;
+use App\Services\RabbitMQService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
 class RouletteController extends Controller
 {
+    protected $rabbitMQService;
+
+    public function __construct(RabbitMQService $rabbitMQService)
+    {
+        $this->rabbitMQService = $rabbitMQService;
+    }
+
     public function showRoulette()
     {
         // Ищем случайного пользователя, который не является текущим авторизованным
@@ -78,30 +83,15 @@ class RouletteController extends Controller
     }
 
     // Метод для отправки уведомлений
-    public function notifyMatch(User $currentUser, User $matchedUser)
+    protected function notifyMatch(User $currentUser, User $matchedUser)
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'abelesense', '2410');
-        $channel = $connection->channel();
-
-// Объявляем очередь
-        $channel->queue_declare('matchemail', false, false, false, false);
-
-// Создаем сообщение с ID обоих пользователей в формате JSON
-        $data = json_encode([
+        $this->rabbitMQService->publish('matchemail', [
             'currentUserId' => $currentUser->id,
             'matchedUserId' => $matchedUser->id,
         ]);
-
-        $msg = new AMQPMessage($data);
-
-// Отправляем сообщение в очередь
-        $channel->basic_publish($msg, '', 'matchemail');
-
-// Закрываем соединение и канал
-        $channel->close();
-        $connection->close();
     }
 }
+
 
 
 

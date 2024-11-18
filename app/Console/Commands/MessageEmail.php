@@ -6,7 +6,7 @@ use App\Mail\MessageNotification;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use App\Services\RabbitMQService;
 
 class MessageEmail extends Command
 {
@@ -24,54 +24,56 @@ class MessageEmail extends Command
      */
     protected $description = 'Send email notification to the recipient of a new message';
 
+    protected $rabbitMQService;
+
+    public function __construct(RabbitMQService $rabbitMQService)
+    {
+        parent::__construct();
+        $this->rabbitMQService = $rabbitMQService;
+    }
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'abelesense', '2410');
-        $channel = $connection->channel();
+        $queueName = 'message_notifications';
 
-        $channel->queue_declare('message_notifications', false, false, false, false);
+        $this->rabbitMQService->consume($queueName, function ($msg) {
+            $this->processMessage($msg);
+        });
+    }
 
-        echo " [*] Waiting for message notifications. To exit press CTRL+C\n";
+    /**
+     * Обработка сообщения из очереди.
+     *
+     * @param $msg
+     */
+    protected function processMessage($msg): void
+    {
+        $data = json_decode($msg->body, true);
 
-        $callback = function ($msg) {
-            // Извлекаем и декодируем JSON-данные из тела сообщения
-            $data = json_decode($msg->body, true);
+        $senderId = $data['senderId'];
+        $receiverId = $data['receiverId'];
+        $messageText = $data['messageText'];
 
-            $senderId = $data['senderId'];
-            $receiverId = $data['receiverId'];
-            $messageText = $data['messageText'];
+        echo "Получено сообщение: senderId = $senderId, receiverId = $receiverId\n";
 
-            echo "Получено сообщение: senderId = $senderId, receiverId = $receiverId\n";
+        $sender = User::find($senderId);
+        $receiver = User::find($receiverId);
 
-            // Находим отправителя и получателя по их ID
-            $sender = User::find($senderId);
-            $receiver = User::find($receiverId);
-
-            // Отправляем уведомление получателю, если он найден
-            if ($receiver && $sender) {
-                Mail::to($receiver->email)->send(new MessageNotification($sender, $messageText));
-                echo "Уведомление отправлено пользователю с ID $receiverId.\n";
-            } else {
-                if (!$receiver) {
-                    echo "Получатель с ID $receiverId не найден.\n";
-                }
-                if (!$sender) {
-                    echo "Отправитель с ID $senderId не найден.\n";
-                }
+        if ($receiver && $sender) {
+            Mail::to($receiver->email)->send(new MessageNotification($sender, $messageText));
+            echo "Уведомление отправлено пользователю с ID $receiverId.\n";
+        } else {
+            if (!$receiver) {
+                echo "Получатель с ID $receiverId не найден.\n";
             }
-        };
-
-        $channel->basic_consume('message_notifications', '', false, true, false, false, $callback);
-
-        while ($channel->is_consuming()) {
-            $channel->wait();
+            if (!$sender) {
+                echo "Отправитель с ID $senderId не найден.\n";
+            }
         }
-
-        $channel->close();
-        $connection->close();
     }
 }
+
 
